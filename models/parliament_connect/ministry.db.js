@@ -213,6 +213,30 @@ class MinistryDb {
 		}
 	}
 
+	async getAllMinistryNames() {
+		try {
+			const res = await this.db.query(
+				`SELECT mid, name FROM ministry`
+			);
+			if (res.rows.length > 0) {
+				return {
+					status: "success",
+					message: res.rows,
+				};
+			} else {
+				return {
+					status: "error",
+					message: "No ministries found",
+				};
+			}
+		} catch (err) {
+			return {
+				status: "error",
+				message: err.message,
+			};
+		}
+	}
+
 	async searchMinistryByName(name) {
 		return await this.db.query(
 			`SELECT * FROM ministry WHERE name ILIKE $1`,

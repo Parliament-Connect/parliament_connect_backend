@@ -123,9 +123,19 @@ const getAllMinistries = async (req, res) => {
 	responseHandler.sendResponse(res, result, 200);
 };
 
+const getAllMinistryNames = async (req, res) => {
+	const ministryManager = models.ministry;
+
+	// get all ministries
+	const result = await ministryManager.getAllMinistryNames();
+	// If all is good, return success message with status code 200
+	responseHandler.sendResponse(res, result, 200);
+};
+
 export default {
 	registerMinistry,
 	getMinistryById,
 	deleteMinistry,
 	getAllMinistries,
+	getAllMinistryNames,
 };

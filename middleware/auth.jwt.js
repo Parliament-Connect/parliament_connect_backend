@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 
 function verifyToken(req, res, next) {
-	const bearerToken = req.cookies.jwt;
+	const bearerToken = req.cookies["x-pc-auth"];
+	console.log(req.get("host"));
+	console.log(req.cookies);
 
 	if (bearerToken !== undefined) {
 		// const bearerToken = bearerHeader.split(" ")[1];
@@ -16,7 +18,7 @@ function verifyToken(req, res, next) {
 				return res.status(401).json({
 					status: "error",
 					message: "Unauthorized",
-					token: bearerToken
+					token: bearerToken,
 				});
 			}
 			req.user = decoded;
@@ -29,6 +31,5 @@ function verifyToken(req, res, next) {
 		});
 	}
 }
-
 
 export default verifyToken;

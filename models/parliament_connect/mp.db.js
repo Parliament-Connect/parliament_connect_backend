@@ -209,6 +209,29 @@ class MpDb {
 		}
 	}
 
+	async getAllMpNames() {
+		try {
+			const res = await this.db.query(`SELECT name, mp_id FROM mp WHERE isMp = true`);
+			if (res.rows.length === 0) {
+				// if no record found, returns error message
+				return {
+					status: "error",
+					message: "No MP found",
+				};
+			}
+			return {
+				status: "success",
+				message: "MPs found",
+				result: res.rows,
+			};
+		} catch (err) {
+			return {
+				status: "error",
+				message: err.message,
+			};
+		}
+	}
+
 	// get mp by party name
 	async getMpsByParty(party) {
 		return await this.db.query(`SELECT * FROM mp WHERE party = $1`, [

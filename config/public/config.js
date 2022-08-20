@@ -2,11 +2,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const parliament_auth = {
-	host: process.env.DB_HOST,
+	host: process.env.AWS_DB_URL,
 	port: process.env.DB_PORT,
-	user: process.env.DB_PC_USER,
-	password: `${process.env.DB_PC_PASSWORD}`,
-	database: process.env.DB_PC_NAME,
+	user: process.env.AWS_DB_USERNAME,
+	password: `${process.env.AWS_DB_PASSWORD}`,
+	database: process.env.AWS_DB_DATABASE,
 };
 
 const dialect = "postgres";

@@ -39,20 +39,54 @@ class parliamentManager {
 		return table;
 	}
 
+	async sabhaExists(sabha, version) {
+		try {
+			const query = `
+				SELECT version FROM ${sabha}_version WHERE version = ${version};
+			`;
+			const result = await this.db.query(query);
+			if (result.rows.length === 0) {
+				return {
+					status: "error",
+					message: "Sabha does not exist",
+					result: null,
+				};
+			} else {
+				return {
+					status: "success",
+					message: "Sabha exists",
+					result: result.rows,
+				};
+			}
+		} catch (error) {
+			return {
+				status: "error",
+				message: "Internal server error",
+				error: error.message,
+			};
+		}
+	}
+
 	// creating new partition for a new sabha version withing the respective sabha partition
 	// Main Table - Parliament Questions
 	// Level 1    - Sabha (lok_sabha | rajya_sabha)
 	// Level 2    - Sabha (lok_sabha | rajya_sabha) + Version (1 | 2 | 3 | ...)
 	async createNewSabhaVersion(sabha, version) {
-		const table = parliamentManager._validateSabhaName(sabha);
-
 		try {
+			const exists = await this.sabhaExists(sabha, version);
+			if (exists.status === "success") {
+				return {
+					status: "error",
+					message: "Sabha version already exist",
+					result: null,
+				};
+			}
 			const query = `
-                CREATE TABLE 
-                    ${table}_${version} 
-                PARTITION OF
-                    ${table}
-                FOR VALUES IN (${version});
+				INSERT INTO ${sabha}_version 
+					(version) 
+				VALUES 
+					(${version})
+				RETURNING *;
             `;
 			const res = await this.db.query(query);
 			return {
@@ -77,30 +111,19 @@ class parliamentManager {
 		const column = parliamentManager._validateSabhaName(sabha);
 
 		try {
-			// check if the sabha version exists
-			if (await this.checkIfVersionExists(column, version)) {
-				const query = `
+			const query = `
 					UPDATE 
 						public.current_sabha_version
 					SET
 						${column} = ${version};
 				`;
-				const res = await this.db.query(query);
-				return {
-					// return the current sabha version and success message
-					status: "success",
-					message: "Sabha version set",
-					result: res.rows,
-				};
-			} else {
-				// if the sabha version does not exist
-				return {
-					// return error message
-					status: "error",
-					message: "Sabha version does not exist",
-					result: null,
-				};
-			}
+			const res = await this.db.query(query);
+			return {
+				// return the current sabha version and success message
+				status: "success",
+				message: "Sabha version set",
+				result: res.rows,
+			};
 		} catch (error) {
 			// if any error occurs
 			return {

@@ -3,17 +3,16 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import Router from "./routes/index.js"; // Load routes
+import db from "./models/admin.js"; // Load models
 
 const corsOptions = {
-	origin: ['http://192.168.29.246:3000', "http://localhost:3000"],
+	origin: ["http://0.0.0.0:3000", "http://localhost:3000"],
 	credentials: true, //access-control-allow-credentials:true
 	optionSuccessStatus: 200,
 };
 
 dotenv.config(); // Load .env file
-
-import Router from "./routes/index.js"; // Load routes
-import db from "./models/auth.js"; // Load models
 
 const app = express(); // Create express app
 app.use(cors(corsOptions));
@@ -33,7 +32,6 @@ app.use((req, res) => {
 		message: `Invalid ${req.method} request to ${req.originalUrl}`,
 	});
 });
-
 
 db.sync() // Sync database - connect to postgresql
 	.then(() => {

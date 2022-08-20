@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
-	return sequelize.define (
-		"parliament_direct",
+	return sequelize.define(
+		"parliament_auth",
 		{
 			id: {
 				type: DataTypes.UUID,
@@ -13,16 +13,25 @@ export default (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				field: "uname",
 				allowNull: false,
-				unique: true,
 			},
 			password: {
 				type: DataTypes.STRING,
 				field: "password",
 				allowNull: false,
 			},
+			roles: {
+				type: DataTypes.ARRAY(DataTypes.STRING),
+				field: "roles",
+				allowNull: false,
+			},
+			ref_id: {
+				type: DataTypes.STRING,
+				field: "ref_id",
+				allowNull: false,
+			},
 		},
 		{
-			tableName: "parliament_direct",
+			tableName: "parliament_auth",
 		}
 	);
 };

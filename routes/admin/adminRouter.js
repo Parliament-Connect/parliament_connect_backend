@@ -4,14 +4,15 @@ import admin from "../../controller/parliament/parliament.controller.js";
 import mpController from "../../controller/parliament/mp.controller.js";
 import ministryController from "../../controller/parliament/ministry.controller.js";
 import questionController from "../../controller/parliament/parliamentQuestion.controller.js";
+import indexController from "../../controller/Indexer/index.controller.js";
 import verify from "../../middleware/auth.jwt.js";
 
 const router = Router();
 
 router.post("/test", (req, res) => {
 	console.log(req.cookies);
-	return res.status(200).json({message: "test"});
-})
+	return res.status(200).json({ message: "test" });
+});
 
 // ADMIN CONTROLLER
 
@@ -29,14 +30,12 @@ router.delete(
 	verify,
 	admin.deleteParliament
 );
-// POST /admin/parliament/sabha/set_version - update the current parliament (sabha) version
-router.post(
-	adminRouterPath.set_parliament_version,
-	verify,
-	admin.setCurrentParliamentVersion
-);
 // GET /admin/parliament/sabha/get_version - fetch the current parliament (sabha) version
-router.get(adminRouterPath.get_parliament_version, verify, admin.getCurrentParliamentVersion);
+router.get(
+	adminRouterPath.get_parliament_version,
+	verify,
+	admin.getCurrentParliamentVersion
+);
 
 // MP CONTROLLER
 
@@ -47,6 +46,8 @@ router.get(adminRouterPath.getAllMps, verify, mpController.getAllMps);
 
 // POST /admin/parliament/mp/register - register a new MP
 router.post(adminRouterPath.register_mp, verify, mpController.registerMp);
+// POST /admin/parliament/mp/all/name - get all mp names
+router.get(adminRouterPath.getAllMpNames, mpController.getAllMpNames);
 // DELETE /admin/parliament/mp/delete - delete a MP
 router.delete(adminRouterPath.deleteMpById, verify, mpController.deleteMp);
 
@@ -70,6 +71,11 @@ router.get(
 	verify,
 	ministryController.getAllMinistries
 );
+// GET /admin/parliament/ministry/all/name - get all ministry names
+router.get(
+	adminRouterPath.getAllMinistryNames,
+	ministryController.getAllMinistryNames
+);
 // DELETE /admin/parliament/ministry/delete - delete a ministry
 router.delete(
 	adminRouterPath.deleteMinistryById,
@@ -88,11 +94,11 @@ router.get("/test", verify, (req, res) => {
 
 // PARLIAMENT CONTROLLER
 // POST /admin/parliament/question/upload - upload a question
-router.post(
-	adminRouterPath.upload_question,
-	verify,
-	questionController.uploadQuestion
-);
+// router.post(
+// 	adminRouterPath.upload_question,
+// 	verify,
+// 	questionController.uploadQuestion
+// );
 
 // GET /admin/parliament/question/id - get question details by id
 router.get(

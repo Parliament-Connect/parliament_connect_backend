@@ -202,6 +202,13 @@ const getAllMps = async (req, res) => {
 	responseHandler.sendResponse(res, await mpManager.getAllMps(), 200);
 };
 
+const getAllMpNames = async (req, res) => {
+	const mpManager = models.mp;
+
+	// If all is good, return success message with status code 200
+	responseHandler.sendResponse(res, await mpManager.getAllMpNames(), 200);
+}
+
 export default {
 	registerMp,
 	deleteMp,
@@ -209,4 +216,5 @@ export default {
 	updateMpWithSelectedAttributes,
 	getMpById,
 	getAllMps,
+	getAllMpNames,
 };

@@ -6,7 +6,6 @@ config();
 
 // connect to the database
 const pool = new pg.Pool(publicDBConfig);
-const sabhaVersion = {};
 
 pool.on("connect", () => {
 	console.log("connected to the database");
