@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import { models } from "../../models/admin.js";
 import objectUtils from "../../utils/object.utils.js";
 import { Op } from "sequelize";
-import CookieSession from "cookie-session";
 
 // admin signup authentication controller
 const admin_signup = async (req, res) => {
@@ -11,7 +10,6 @@ const admin_signup = async (req, res) => {
 		const User = models.direct_auth; // direct_auth model
 
 		const { uname, password, role, ref_id } = req.body; // id, uname and password are required
-		console.log(req.body);
 
 		// Missing params from body
 		const missing = objectUtils.findMissing({
@@ -69,7 +67,7 @@ const admin_signup = async (req, res) => {
 			roles: [role],
 			ref_id: role === "admin" ? count + 1 : ref_id,
 		});
-		console.log(user.id, user.uname);
+		console.log("User created : " + user.id + " | " + new Date());
 
 		const token = jwt.sign(
 			{
@@ -110,7 +108,6 @@ const admin_login = async (req, res) => {
 			role,
 			...((role === "MP" || role === "Ministry") && { ref_id }),
 		});
-		console.log(req.body);
 		// If missing params, return error
 		if (!objectUtils.objectIsEmpty(missing)) {
 			return res.status(400).json({
@@ -194,7 +191,6 @@ const admin_logout = (req, res) => {
 
 const admin_authorize = async (req, res) => {
 	const token = req.cookies["x-pc-auth"];
-	console.log(req.cookies);
 	if (!token) {
 		return res.status(401).json({
 			success: false,
@@ -211,7 +207,6 @@ const admin_authorize = async (req, res) => {
 				message: "Unauthorized",
 			});
 		}
-		console.log(decoded);
 		return res.status(200).json({
 			success: true,
 			message: "User authorized successfully",

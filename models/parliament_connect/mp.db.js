@@ -47,7 +47,6 @@ class MpDb {
 				sabha,
 				version
 			);
-			console.log(version);
 			if (!sabhaCheck) {
 				return {
 					status: "error",
@@ -211,7 +210,9 @@ class MpDb {
 
 	async getAllMpNames() {
 		try {
-			const res = await this.db.query(`SELECT name, mp_id FROM mp WHERE isMp = true`);
+			const res = await this.db.query(
+				`SELECT name, mp_id FROM mp WHERE isMp = true`
+			);
 			if (res.rows.length === 0) {
 				// if no record found, returns error message
 				return {

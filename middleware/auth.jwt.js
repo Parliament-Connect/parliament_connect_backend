@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 function verifyToken(req, res, next) {
 	const bearerToken = req.cookies["x-pc-auth"];
-	console.log(req.get("host"));
+	console.log("host verification : " + req.get("host") + " | " + new Date());
 
 	if (bearerToken !== undefined) {
 		// const bearerToken = bearerHeader.split(" ")[1];
@@ -23,6 +23,7 @@ function verifyToken(req, res, next) {
 			req.user = decoded;
 		});
 		next();
+		console.log("verified successfully" + req.get("host"));
 	} else {
 		return res.status(403).json({
 			status: "error",

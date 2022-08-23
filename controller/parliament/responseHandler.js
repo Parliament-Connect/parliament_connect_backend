@@ -24,8 +24,10 @@ const errorInvalidSabhaName = (res, sabha) => {
 
 const sendResponse = (res, body, successCode) => {
 	if (body.status === "success") {
+		console.log("success : " + body);
 		return res.status(successCode).json({ ...body });
 	} else {
+		console.log("error : " + body);
 		return res.status(400).json({ ...body });
 	}
 };

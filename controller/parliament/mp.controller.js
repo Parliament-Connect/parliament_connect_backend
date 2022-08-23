@@ -56,7 +56,6 @@ const registerMp = async (req, res) => {
 		constituency,
 		created_at
 	);
-	console.log(result);
 	// If all is good, return success message with status code 201
 	responseHandler.sendResponse(res, result, 201);
 };
@@ -181,7 +180,6 @@ const updateMpWithSelectedAttributes = async (req, res) => {
 
 const getMpById = async (req, res) => {
 	const { mp_id } = req.params;
-	console.log(mp_id);
 
 	const mpManager = models.mp;
 

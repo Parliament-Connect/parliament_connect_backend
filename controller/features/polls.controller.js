@@ -14,7 +14,6 @@ const createPoll = async (req, res) => {
 				expiryDate,
 				expiryTime,
 			} = req.body; // question, description, options, expiryDate and expiryTime are required
-			console.log(req.body);
 
 			// Missing params from body
 			const missing = objectUtils.findMissing({
@@ -49,7 +48,7 @@ const createPoll = async (req, res) => {
 			});
 
 			// Create poll
-			await Poll.create({
+			const poll = await Poll.create({
 				question,
 				description,
 				options,
@@ -57,6 +56,7 @@ const createPoll = async (req, res) => {
 				expiryTime,
 				parliamentAuthId: req.user.id,
 			});
+			console.log("Poll created : " + poll.id + " | " + new Date());
 			return res.status(200).json({
 				status: "success",
 				message: "Poll created",
@@ -202,6 +202,7 @@ const updatePoll = async (req, res) => {
 				expiryDate,
 				expiryTime,
 			});
+			console.log("Poll updated : " + id + " | " + new Date());
 			return res.status(200).json({
 				status: "success",
 				message: "Poll updated",
@@ -253,8 +254,6 @@ const vote = async (req, res) => {
 
 		poll.options[optionKey - 1].votes++;
 
-		console.log(poll.options);
-
 		await Poll.update({ options: poll.options }, { where: { id } });
 
 		return res.status(200).json({
@@ -287,6 +286,7 @@ const deletePoll = async (req, res) => {
 			await Poll.destroy({
 				where: { id },
 			});
+			console.log("Poll deleted : " + id + " | " + new Date());
 			return res.status(200).json({
 				status: "success",
 				message: "Poll deleted",

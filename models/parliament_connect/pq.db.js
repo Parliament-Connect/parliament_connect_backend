@@ -5,7 +5,6 @@ class parliamentQuestions {
 
 	// create a new parliament question
 	async createQuestion(question, sabha, version, asked_by, asked_to) {
-		console.log(sabha, version);
 		const query = `
 			INSERT INTO parliament_questions (
 				question,

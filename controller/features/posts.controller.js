@@ -8,8 +8,7 @@ const createPost = async (req, res) => {
 		try {
 			const Post = models.posts; // posts model
 			const { title, image, content, tags } = req.body; // title, description, image, expiryDate and expiryTime are required
-			console.log(req.body);
-			console.log(req.user.id);
+
 			// Missing params from body
 			const missing = objectUtils.findMissing({
 				title,
@@ -26,7 +25,7 @@ const createPost = async (req, res) => {
 			}
 
 			// Create post
-			await Post.create({
+			const post = await Post.create({
 				title,
 				content,
 				likes: 0,
@@ -34,6 +33,7 @@ const createPost = async (req, res) => {
 				...(tags && { tags }),
 				parliamentAuthId: req.user.id,
 			});
+			console.log("post created : " + post.id + " | " + new Date());
 			return res.status(200).json({
 				status: "success",
 				message: "Post created successfully",
@@ -82,7 +82,6 @@ const getPost = async (req, res) => {
 	try {
 		const Post = models.posts; // posts model
 		const { id } = req.params; // id is required
-		console.log(req.params);
 		const post = await Post.findOne({
 			where: {
 				id,
@@ -122,7 +121,6 @@ const updatePost = async (req, res) => {
 				});
 			}
 
-			console.log(title, content);
 			if (title === undefined && content === undefined) {
 				return res.status(400).json({
 					status: "error",
@@ -144,6 +142,7 @@ const updatePost = async (req, res) => {
 					},
 				}
 			);
+			console.log("post updated : " + id + " | " + new Date());
 			return res.status(200).json({
 				status: "success",
 				message: "Post updated successfully",
@@ -184,6 +183,7 @@ const deletePost = async (req, res) => {
 					id,
 				},
 			});
+			console.log("post deleted : " + id + " | " + new Date());
 			return res.status(200).json({
 				status: "success",
 				message: "Post deleted successfully",

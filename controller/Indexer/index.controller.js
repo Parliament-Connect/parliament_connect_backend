@@ -1,19 +1,16 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import models from "../../models/index.js";
-import ObjectUtils from "../../utils/object.utils.js";
 import objectUtils from "../../utils/object.utils.js";
 
 dotenv.config();
 
-// const API_URL = "http://43.205.203.124:80";
 const API_URL = "http://13.233.174.140:80";
 const INDEXER_SECRET = process.env.INDEXER_SECRET;
 
 const create_index = async (req, res) => {
 	const data = req.body;
 	const payload = { ...data, SECRET_KEY: INDEXER_SECRET };
-	console.log(payload);
 	try {
 		const result = await axios.post(API_URL + "/index", payload);
 		if (result.data.status === "error") {
@@ -23,12 +20,12 @@ const create_index = async (req, res) => {
 				error: result.data.message,
 			});
 		}
+		console.log("index created : " + { ...data } + " | " + new Date());
 		return res.status(201).json({
 			status: "success",
 			message: "Index created successfully",
 		});
 	} catch (err) {
-		console.log(err);
 		return res.status(500).json({
 			status: "error",
 			message: "Internal server error",
@@ -37,6 +34,7 @@ const create_index = async (req, res) => {
 	}
 };
 
+// delete an elasticsearch index
 const delete_index = async (req, res) => {
 	const data = req.body;
 	const payload = { ...data, SECRET_KEY: INDEXER_SECRET };
@@ -51,12 +49,12 @@ const delete_index = async (req, res) => {
 				error: result.data.message,
 			});
 		}
+		console.log("index deleted : " + { ...data } + " | " + new Date());
 		return res.status(201).json({
 			status: "success",
 			message: "Index deleted successfully",
 		});
 	} catch (err) {
-		console.log(err);
 		return res.status(500).json({
 			status: "error",
 			message: "Internal server error",
@@ -65,6 +63,7 @@ const delete_index = async (req, res) => {
 	}
 };
 
+// upload a question
 const upload_question = async (req, res) => {
 	const mpManager = models.mp;
 	const ministryManager = models.ministry;
@@ -106,7 +105,6 @@ const upload_question = async (req, res) => {
 			message: "Question uploaded successfully",
 		});
 	} catch (err) {
-		console.log(err);
 		return res.status(500).json({
 			status: "error",
 			message: "Internal server error",
@@ -115,6 +113,7 @@ const upload_question = async (req, res) => {
 	}
 };
 
+// fetch all unanswered questions
 const getUserUnansweredQuestions = async (req, res) => {
 	const { index } = req.body;
 	let url = API_URL + "/get/questions/";
@@ -133,7 +132,6 @@ const getUserUnansweredQuestions = async (req, res) => {
 			questions: result.data,
 		});
 	} catch (err) {
-		console.log(err);
 		return res.status(500).json({
 			status: "error",
 			message: "Internal server error",
@@ -142,6 +140,7 @@ const getUserUnansweredQuestions = async (req, res) => {
 	}
 };
 
+// upload answer to available question
 const upload_answer = async (req, res) => {
 	const { index, id, answer, styled_answer } = req.body;
 
@@ -169,9 +168,6 @@ const upload_answer = async (req, res) => {
 		role = "ministry";
 	}
 
-	console.log(req.user);
-	console.log(question.data._source[role]);
-
 	if (req.user.uname !== question.data._source[role]) {
 		return res.status(400).json({
 			status: "error",
@@ -194,7 +190,6 @@ const upload_answer = async (req, res) => {
 			message: "Answer uploaded successfully",
 		});
 	} catch (err) {
-		console.log(err);
 		return res.status(500).json({
 			status: "error",
 			message: "Internal server error",
@@ -203,6 +198,7 @@ const upload_answer = async (req, res) => {
 	}
 };
 
+// fetch all available elasticsearch indices
 const getIndices = async (req, res) => {
 	try {
 		const result = await axios.get(API_URL + "/get/indices");
@@ -230,7 +226,6 @@ const getMPs = async (req, res) => {
 			mps: result.data,
 		});
 	} catch (err) {
-		console.log(err);
 		return res.status(500).json({
 			status: "error",
 			message: "Internal server error",

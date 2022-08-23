@@ -1,9 +1,20 @@
+/* check if object is empty
+ * @param {Object} obj - Object to be checked
+ * @return {boolean} - True if empty, false if not
+ *
+ * NOTE - This is the fastest way to check if an object is empty
+ */
 const objectIsEmpty = (obj) => {
 	for (var i in obj) return false;
 	return true;
 };
 
 // Find missing params from body
+/*
+ *  Find missing params from body
+ * @param {Object} obj - Object to be filtered
+ * @return {Object} - The missing params with their keys & msg
+ * */
 const findMissing = (obj) => {
 	let missing = {};
 	for (let key in obj) {
@@ -15,6 +26,10 @@ const findMissing = (obj) => {
 };
 
 // Filtering object by non-empty keys
+/* filter non-empty keys from object
+ * @param {Object} obj - Object to be filtered
+ * @return {Object} - Filtered object
+ * */
 const filterNonEmpty = (obj) => {
 	let filtered = {};
 	for (let key in obj) {
