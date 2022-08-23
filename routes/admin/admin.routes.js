@@ -11,15 +11,17 @@ export default {
 	create_sabha: "/parliament/index/create",
 	delete_sabha: "/parliament/index/delete",
 	upload_question: "/parliament/question/upload",
+	upload_answer: "/parliament/answer",
 	get_indices: "/parliament/get/indices",
 	get_mps: "/parliament/mp",
+	get_user_unanswered_questions: "/parliament/unanswered",
 
 	//Admin
 	getAllUsers: "/parliament/users",
 
 	// mp
 	register_mp: "/parliament/mp/register",
-	getMpById: "/parliament/mp/id", // POST request
+	getMpById: "/parliament/mp/id/:mp_id", // POST request
 	deleteMpById: "/parliament/mp/id", // DELETE request
 	getAllMps: "/parliament/mp/all",
 	getAllMpNames: "/parliament/mp/all/name",

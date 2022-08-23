@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 function verifyToken(req, res, next) {
 	const bearerToken = req.cookies["x-pc-auth"];
 	console.log(req.get("host"));
-	console.log(req.cookies);
 
 	if (bearerToken !== undefined) {
 		// const bearerToken = bearerHeader.split(" ")[1];

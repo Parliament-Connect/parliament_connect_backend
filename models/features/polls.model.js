@@ -1,3 +1,5 @@
+import models from "../admin.js";
+
 export default (sequelize, DataTypes) => {
 	return sequelize.define(
 		"polls",
@@ -14,19 +16,25 @@ export default (sequelize, DataTypes) => {
 				field: "question",
 				allowNull: false,
 			},
+			description: {
+				type: DataTypes.TEXT,
+				field: "description",
+				allowNull: false,
+			},
 			options: {
 				type: DataTypes.JSONB,
 				field: "options",
 				allowNull: false,
 			},
-			posted_by: {
-				type: DataTypes.UUID,
-				field: "posted_by",
+			expiryDate: {
+				type: DataTypes.DATE,
+				field: "expiry_date",
 				allowNull: false,
-				references: {
-					model: "parliament_auth",
-					referencesKey: "id",
-				},
+			},
+			expiryTime: {
+				type: DataTypes.TIME,
+				field: "expiry_time",
+				allowNull: false,
 			},
 		},
 		{

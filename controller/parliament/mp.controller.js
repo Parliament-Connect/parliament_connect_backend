@@ -180,7 +180,8 @@ const updateMpWithSelectedAttributes = async (req, res) => {
 };
 
 const getMpById = async (req, res) => {
-	const { mp_id } = req.body;
+	const { mp_id } = req.params;
+	console.log(mp_id);
 
 	const mpManager = models.mp;
 
@@ -207,7 +208,7 @@ const getAllMpNames = async (req, res) => {
 
 	// If all is good, return success message with status code 200
 	responseHandler.sendResponse(res, await mpManager.getAllMpNames(), 200);
-}
+};
 
 export default {
 	registerMp,

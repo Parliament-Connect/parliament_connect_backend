@@ -211,11 +211,13 @@ const admin_authorize = async (req, res) => {
 				message: "Unauthorized",
 			});
 		}
+		console.log(decoded);
 		return res.status(200).json({
 			success: true,
 			message: "User authorized successfully",
 			username: decoded.uname,
 			role: decoded.role,
+			ref_id: decoded.ref_id,
 		});
 	});
 };

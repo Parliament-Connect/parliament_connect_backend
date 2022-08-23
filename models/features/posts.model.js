@@ -19,19 +19,20 @@ export default (sequelize, DataTypes) => {
 				field: "content",
 				allowNull: false,
 			},
+			image_path: {
+				type: DataTypes.TEXT,
+				field: "image",
+				allowNull: true,
+			},
+			tags: {
+				type: DataTypes.ARRAY(DataTypes.STRING),
+				field: "tags",
+				allowNull: true,
+			},
 			likes: {
 				type: DataTypes.INTEGER,
 				field: "likes",
 				allowNull: false,
-			},
-			posted_by: {
-				type: DataTypes.UUID,
-				field: "posted_by",
-				allowNull: false,
-				references: {
-					model: "parliament_auth",
-					referencesKey: "id",
-				},
 			},
 		},
 		{

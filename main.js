@@ -33,7 +33,7 @@ app.use((req, res) => {
 	});
 });
 
-db.sync() // Sync database - connect to postgresql
+db.sync({ alter: true }) // Sync database - connect to postgresql
 	.then(() => {
 		// If success, start server
 		app.listen(port, process.env.HOSTNAME, () => {

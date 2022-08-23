@@ -30,8 +30,14 @@ const models = {
 	posts: posts(sequelize, Sequelize.DataTypes),
 };
 
+models.direct_auth.hasMany(models.polls);
+models.polls.belongsTo(models.direct_auth);
+models.direct_auth.hasMany(models.posts);
+models.posts.belongsTo(models.direct_auth);
+
 Object.keys(models).forEach((modelName) => {
 	if (models[modelName].associate) {
+		console.log(`Associating ${modelName}`);
 		models[modelName].associate(models);
 	}
 });

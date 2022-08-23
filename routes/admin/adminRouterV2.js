@@ -12,7 +12,17 @@ router.post(
 	verify,
 	indexController.upload_question
 );
+router.post(
+	adminRouterPath.upload_answer,
+	verify,
+	indexController.upload_answer
+);
 router.post(adminRouterPath.get_indices, verify, indexController.getIndices);
 router.post(adminRouterPath.get_mps, verify, indexController.getMPs);
+router.post(
+	adminRouterPath.get_user_unanswered_questions,
+	verify,
+	indexController.getUserUnansweredQuestions
+);
 
 export default router;
